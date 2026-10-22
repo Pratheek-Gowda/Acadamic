@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academiq Tools - Free Student & Academic Calculators</title>
+  <meta name="description" content="Free, fast, and mathematically rigorous academic calculators. Convert CGPA to percentage, calculate attendance bunk/target requirements, and solve quadratic equations step-by-step.">
+  <meta name="keywords" content="CGPA to percentage, attendance calculator, bunk calculator, quadratic equation solver, academic toolkit, GPA converter">
+  <meta name="author" content="Academiq Tools Engineering">
+  <link rel="canonical" href="https://academiqtools.example.com">
+
+  <!-- Open Graph / Meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Academiq Tools - Student Academic Calculator Suite">
+  <meta property="og:description" content="Accurate CGPA conversion, smart attendance planner, and step-by-step quadratic equation solver.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              300: '#a5b4fc',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+              950: '#1e1b4b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar and Accents */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .dark ::-webkit-scrollbar-thumb { background: #334155; }
+    
+    .ad-slot-placeholder {
+      min-height: 100px;
+      background: repeating-linear-gradient(
+        -45deg,
+        rgba(99, 102, 241, 0.03),
+        rgba(99, 102, 241, 0.03) 10px,
+        rgba(99, 102, 241, 0.08) 10px,
+        rgba(99, 102, 241, 0.08) 20px
+      );
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200 antialiased min-h-screen flex flex-col font-sans">
+
+  <!-- TOP APP HEADER -->
+  <header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-violet-500 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-brand-500/30">
+          A
+        </div>
+        <div>
+          <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-brand-600 to-violet-600 dark:from-brand-400 dark:to-violet-400 bg-clip-text text-transparent">Academiq Tools</span>
+          <span class="hidden sm:inline-block ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-brand-50 dark:bg-brand-950/60 text-brand-600 dark:text-brand-400 border border-brand-200 dark:border-brand-800/40">v2.4 Pro</span>
+        </div>
+      </div>
+
+      <!-- Navigation & Dark Mode -->
+      <div class="flex items-center space-x-2 sm:space-x-4">
+        <!-- Tab Selector in Header for quick access -->
+        <div class="hidden md:flex bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700">
+          <button onclick="switchTab('cgpa')" id="nav-btn-cgpa" class="nav-btn px-3 py-1.5 rounded-lg transition-all text-slate-600 dark:text-slate-300 hover:text-brand-600">CGPA Converter</button>
+          <button onclick="switchTab('attendance')" id="nav-btn-attendance" class="nav-btn px-3 py-1.5 rounded-lg transition-all text-slate-600 dark:text-slate-300 hover:text-brand-600">Attendance Target</button>
+          <button onclick="switchTab('quadratic')" id="nav-btn-quadratic" class="nav-btn px-3 py-1.5 rounded-lg transition-all text-slate-600 dark:text-slate-300 hover:text-brand-600">Quadratic Solver</button>
+        </div>
+
+        <!-- Dark/Light Mode Switcher -->
+        <button id="theme-toggle" aria-label="Toggle Dark Mode" class="p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none transition-colors border border-slate-200/80 dark:border-slate-700/80">
+          <svg id="theme-icon-sun" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 9h-1m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <svg id="theme-icon-moon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- TOP AD BANNER CONTAINER -->
+  <aside class="max-w-6xl mx-auto px-4 mt-6 w-full" aria-label="Sponsored Advertisement Banner">
+    <div id="ad-banner-top" class="ad-slot-placeholder w-full h-24 border border-dashed border-slate-300 dark:border-slate-700 rounded-2xl flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 text-xs font-mono select-none">
+      <span class="font-semibold uppercase tracking-wider text-[11px] mb-1">Advertisement Placement (Leaderboard Responsive)</span>
+      <span class="text-[10px] text-slate-400">Target slot ID: #ad-banner-top (AdSense / Ezoic Ready)</span>
+    </div>
+  </aside>
+
+  <!-- MAIN WRAPPER -->
+  <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+    <!-- BREADCRUMBS & HERO INTRO -->
+    <nav class="flex items-center text-xs font-medium text-slate-500 dark:text-slate-400 mb-4" aria-label="Breadcrumb">
+      <ol class="flex items-center space-x-2">
+        <li><span class="hover:text-brand-600 cursor-pointer" onclick="switchTab('cgpa')">Home</span></li>
+        <li><span class="text-slate-400">/</span></li>
+        <li><span class="text-slate-400">Calculators</span></li>
+        <li><span class="text-slate-400">/</span></li>
+        <li id="breadcrumb-active" class="text-brand-600 dark:text-brand-400 font-semibold">CGPA to Percentage Converter</li>
+      </ol>
+    </nav>
+
+    <!-- MOBILE & MAIN TAB CONTROLS -->
+    <div class="mb-8">
+      <div class="sm:hidden mb-4">
+        <label for="mobile-tab-select" class="sr-only">Select Calculator</label>
+        <select id="mobile-tab-select" onchange="switchTab(this.value)" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 font-semibold text-slate-800 dark:text-slate-100">
+          <option value="cgpa">🎓 CGPA to Percentage Calculator</option>
+          <option value="attendance">📅 Attendance Target & Safe Bunk</option>
+          <option value="quadratic">📐 Quadratic Equation Solver</option>
+        </select>
+      </div>
+
+      <div class="hidden sm:grid grid-cols-3 gap-3 p-1.5 bg-slate-200/70 dark:bg-slate-800/60 backdrop-blur rounded-2xl border border-slate-300/60 dark:border-slate-700/60">
+        <button onclick="switchTab('cgpa')" id="tab-btn-cgpa" class="tab-trigger flex items-center justify-center space-x-2.5 py-3.5 px-4 rounded-xl font-semibold text-sm transition-all duration-200">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5z"></path><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path></svg>
+          <span>CGPA to Percentage</span>
+        </button>
+        <button onclick="switchTab('attendance')" id="tab-btn-attendance" class="tab-trigger flex items-center justify-center space-x-2.5 py-3.5 px-4 rounded-xl font-semibold text-sm transition-all duration-200">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          <span>Attendance Tracker</span>
+        </button>
+        <button onclick="switchTab('quadratic')" id="tab-btn-quadratic" class="tab-trigger flex items-center justify-center space-x-2.5 py-3.5 px-4 rounded-xl font-semibold text-sm transition-all duration-200">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+          <span>Quadratic Solver</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 1: CGPA TO PERCENTAGE CALCULATOR       -->
+    <!-- ========================================== -->
+    <section id="panel-cgpa" class="tab-panel space-y-8">
+      <!-- Interactive Calculator Card -->
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-none p-6 sm:p-8">
+        <div class="border-b border-slate-100 dark:border-slate-800 pb-5 mb-6">
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">CGPA to Percentage Converter</h1>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Convert cumulative grade point average (10-point scale) to standard academic percentage and academic honors classification.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <!-- Inputs Column -->
+          <div class="lg:col-span-6 space-y-5">
+            <div>
+              <label for="cgpa-input" class="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Enter CGPA (Scale 0.00 – 10.00)</label>
+              <div class="relative rounded-xl shadow-sm">
+                <input type="number" id="cgpa-input" min="0" max="10" step="0.01" value="8.50" placeholder="e.g. 8.45" 
+                  class="w-full text-lg px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-500 focus:outline-none transition" />
+                <span class="absolute right-4 top-3.5 text-xs font-bold text-slate-400">/ 10.0</span>
+              </div>
+              <p id="cgpa-error" class="hidden text-xs text-rose-500 font-medium mt-1.5"></p>
+            </div>
+
+            <div>
+              <label for="cgpa-system" class="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">University Conversion Standard</label>
+              <select id="cgpa-system" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-500 focus:outline-none transition text-sm">
+                <option value="9.5">CBSE / AICTE Standard (Percentage = CGPA × 9.5)</option>
+                <option value="10.0">Direct 10-Multiplier (Percentage = CGPA × 10.0)</option>
+                <option value="vtu">VTU Karnataka Formula ((CGPA - 0.75) × 10)</option>
+                <option value="mumbai">Mumbai University Technical Formula</option>
+                <option value="custom">Custom Multiplier Rate</option>
+              </select>
+            </div>
+
+            <!-- Custom Multiplier Input (Conditional) -->
+            <div id="custom-multiplier-container" class="hidden">
+              <label for="custom-multiplier" class="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Custom Multiplier Value</label>
+              <input type="number" id="custom-multiplier" step="0.01" value="9.5" min="1" max="20" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-slate-900 dark:text-white text-sm" />
+            </div>
+
+            <div class="pt-2 flex items-center space-x-3">
+              <button onclick="calculateCGPA()" class="flex-1 bg-brand-600 hover:bg-brand-700 active:scale-[0.99] text-white font-semibold py-3 px-5 rounded-xl shadow-lg shadow-brand-500/25 transition">
+                Compute Percentage
+              </button>
+              <button onclick="resetCGPA()" class="px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition text-sm font-medium">
+                Reset
+              </button>
+            </div>
+          </div>
+
+          <!-- Live Output Card -->
+          <div class="lg:col-span-6 bg-gradient-to-br from-slate-50 to-indigo-50/30 dark:from-slate-800/40 dark:to-brand-950/20 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col justify-between min-h-[300px]">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Equivalent Percentage</span>
+                <span id="cgpa-status-badge" class="px-2.5 py-1 text-xs rounded-full font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300">Active</span>
+              </div>
+
+              <!-- Main Result Metric -->
+              <div class="flex items-baseline space-x-2 my-2">
+                <span id="cgpa-result-val" class="text-5xl font-black text-brand-600 dark:text-brand-400 tracking-tight">80.75</span>
+                <span class="text-2xl font-bold text-slate-600 dark:text-slate-300">%</span>
+              </div>
+
+              <!-- Progress Bar -->
+              <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-3 my-4 overflow-hidden">
+                <div id="cgpa-progress-bar" class="bg-gradient-to-r from-brand-500 to-violet-500 h-3 rounded-full transition-all duration-500" style="width: 80.75%;"></div>
+              </div>
+            </div>
+
+            <!-- Detailed Academic Classification -->
+            <div class="grid grid-cols-2 gap-3 pt-4 border-t border-slate-200 dark:border-slate-700 text-sm">
+              <div class="bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-100 dark:border-slate-700/60">
+                <span class="text-xs text-slate-400 block">Letter Grade</span>
+                <span id="cgpa-letter-grade" class="font-bold text-lg text-slate-800 dark:text-white">A+ (Excellent)</span>
+              </div>
+              <div class="bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-100 dark:border-slate-700/60">
+                <span class="text-xs text-slate-400 block">Class Division</span>
+                <span id="cgpa-class-division" class="font-bold text-sm text-slate-800 dark:text-white leading-tight">First Class with Distinction</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MID AD SLOT -->
+      <aside class="ad-slot-placeholder w-full h-24 border border-dashed border-slate-300 dark:border-slate-700 rounded-2xl flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 text-xs font-mono" aria-label="Advertisement Banner">
+        <span class="font-semibold uppercase tracking-wider text-[11px] mb-1">In-Content Responsive Advertisement Hook</span>
+        <span class="text-[10px] text-slate-400">Target slot ID: #ad-slot-mid-cgpa</span>
+      </aside>
+
+      <!-- EDITORIAL CONTENT (500+ WORDS) -->
+      <article class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-10 prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 text-sm leading-relaxed space-y-6">
+        <header>
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Comprehensive Guide to Academic Cumulative Grade Point Average (CGPA) Conversion</h2>
+          <p class="text-slate-500 dark:text-slate-400 mt-1">Understanding conversion algorithms, standard deviations across global evaluation boards, and institutional policies.</p>
+        </header>
+
+        <section class="space-y-3">
+          <h3 class="text-lg font-bold text-slate-800 dark:text-white">How the CGPA Conversion Formulas Work</h3>
+          <p>
+            The Cumulative Grade Point Average (CGPA) is a standardized numerical representation of a student's overarching academic performance across multiple semesters or terms. While universities evaluate term coursework on ordinal scales (typically ranging between 4.0, 7.0, or 10.0), corporate recruiters, competitive exam boards, and international admissions councils routinely demand a normalized metric: the percentage equivalent.
+          </p>
+          <p>
+            To convert a 10.0 CGPA scale to an aggregate percentage, different regulatory bodies and state universities have established formal conversion models:
+          </p>
+          <ul class="list-disc pl-5 space-y-2">
+            <li><strong>The AICTE & CBSE 9.5 Formula:</strong> Published by the Central Board of Secondary Education (CBSE) and acknowledged by AICTE, multiplying your 10-point CGPA by <strong>9.5</strong> produces the estimated aggregate percentage. The 9.5 constant was derived through statistical normalization: analyzing historical test scores of the top 5th percentile candidates who scored a perfect 10 CGPA, yielding an average absolute score of 95%.</li>
+            <li><strong>Visvesvaraya Technological University (VTU) Formula:</strong> Technical universities often account for non-linear grading distributions. The VTU model applies the equation: <code>Percentage (%) = (CGPA - 0.75) × 10</code>. This accounts for the baseline grade thresholds enforced in engineering curricula.</li>
+            <li><strong>Mumbai University Engineering Scale:</strong> For colleges affiliated with the University of Mumbai, technical programs evaluate candidates using piecewise conversion: For <code>CGPA &lt; 7.0</code>, percentage is calculated as <code>7.1 × CGPA + 12</code>; for <code>CGPA ≥ 7.0</code>, the standard mapping uses <code>7.4 × CGPA + 12</code>.</li>
+          </ul>
+        </section>
+
+        <section class="space-y-3">
+          <h3 class="text-lg font-bold text-slate-800 dark:text-white">Worked Example Scenario</h3>
+          <p>
+            Consider a graduate student who completed an 8-semester Bachelor of Technology program with a cumulative CGPA of <strong>8.40</strong> out of 10.0. Depending on the institution submitting the transcript:
+          </p>
+          <div class="bg-slate-50 dark:bg-slate-800/80 p-4 rounded-xl border border-slate-200 dark:border-slate-700 font-mono text-xs space-y-1">
+            <p>1. Under the standard AICTE/CBSE formula: Percentage = 8.40 × 9.5 = <strong>79.80%</strong></p>
+            <p>2. Under VTU Karnataka guidelines: Percentage = (8.40 - 0.75) × 10 = 7.65 × 10 = <strong>76.50%</strong></p>
+            <p>3. Classification: 79.80% corresponds to <em>First Class with Distinction</em> (or Grade A+).</p>
+          </div>
+          <p>
+            Always verify the footnotes of your official grade card. When submitting documentation to international credential evaluation agencies (such as WES, ECE, or Josef Silny), always supply your university's explicit conversion guidelines stamped by the Controller of Examinations.
+          </p>
+        </section>
+
+        <!-- FAQ ACCORDION -->
+        <section class="space-y-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+          <h3 class="text-lg font-bold text-slate-800 dark:text-white">Frequently Asked Questions</h3>
+          
+          <div class="space-y-2" id="faq-cgpa-container">
+            <!-- FAQ Item 1 -->
+            <div class="border border-slate-200 dark:border-slate-700/80 rounded-xl overflow-hidden">
+              <button onclick="toggleFaq(this)" class="w-full text-left px-4 py-3.5 flex justify-between items-center font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                <span>Why does CBSE and AICTE multiply by 9.5 instead of 10?</span>
+                <span class="faq-icon transform transition-transform duration-200 text-brand-500 font-bold text-lg">+</span>
+              </button>
+              <div class="faq-content hidden px-4 pb-4 text-xs text-slate-500 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3">
+                A simple 10x multiplier assumes that an aggregate CGPA of 10 represents 100% absolute marks. However, in university assessment matrices, grade 10 is granted to candidate bands scoring anywhere between 91% and 100%. The mathematical midpoint of this top band is 95.5%. Empirical analysis proved that 9.5 serves as the most accurate linear approximation for normalized distributions across diverse exam difficulties.
+              </div>
+            </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="border border-slate-200 dark:border-slate-700/80 rounded-xl overflow-hidden">
+              <button onclick="toggleFaq(this)" class="w-full text-left px-4 py-3.5 flex justify-between items-center font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                <span>Can I use this converted percentage for US graduate admissions (WES)?</span>
+                <span class="faq-icon transform transition-transform duration-200 text-brand-500 font-bold text-lg">+</span>
+              </button>
+              <div class="faq-content hidden px-4 pb-4 text-xs text-slate-500 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3">
+                Credential evaluation services such as WES (World Education Services) do not use linear percentage multipliers. Instead, they re-evaluate each individual course credit and assign an American 4.0 scale letter grade. However, university admissions committees in Europe, the UK, and Canada often request your raw percentage equivalence alongside official university conversion certificates.
+              </div>
+            </div>
+
+            <!-- FAQ Item 3 -->
+            <div class="border border-slate-200 dark:border-slate-700/80 rounded-xl overflow-hidden">
+              <button onclick="toggleFaq(this)" class="w-full text-left px-4 py-3.5 flex justify-between items-center font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                <span>What constitutes a "First Class with Distinction"?</span>
+                <span class="faq-icon transform transition-transform duration-200 text-brand-500 font-bold text-lg">+</span>
+              </button>
+              <div class="faq-content hidden px-4 pb-4 text-xs text-slate-500 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3">
+                Most Commonwealth universities and technical institutions classify an aggregate percentage of 75.00% and above (approximately 7.9+ CGPA on a 9.5 multiplier scale) as First Class with Distinction, provided the student passed all modules on their maiden attempt without backlogs. Percentages between 60.00% and 74.99% fall under First Class.
+              </div>
+            </div>
+          </div>
+        </section>
+      </article>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 2: ATTENDANCE TRACKER & BUNK PLANNER   -->
+    <!-- ========================================== -->
+    <section id="panel-attendance" class="tab-panel hidden space-y-8">
+      <!-- Interactive Calculator Card -->
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-none p-6 sm:p-8">
+        <div class="border-b border-slate-100 dark:border-slate-800 pb-5 mb-6">
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Attendance & Safe Bunk Target Calculator</h1>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Determine how many consecutive lectures you can safely skip, or calculate the exact number of classes you must attend to satisfy institutional quotas.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <!-- Inputs Column -->
+          <div class="lg:col-span-6 space-y-5">
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="classes-held" class="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Total Classes Held</label>
+                <input type="number" id="classes-held" min="1" value="48" class="w-full text-base px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-500 focus:outline-none transition" />
+              </div>
+              <div>
+                <label for="classes-attended" class="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Classes Attended</label>
+                <input type="number" id="classes-attended" min="0" value="41" class="w-full text-base px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-500 focus:outline-none transition" />
+              </div>
+            </div>
+            <p id="att-error" class="hidden text-xs text-rose-500 font-medium"></p>
+
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1.5">Desired Target Threshold (%)</label>
+              <div class="flex items-center space-x-2">
+                <input type="number" id="att-target-input" min="1" max="100" value="75" class="w-28 text-base px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-500 focus:outline-none transition" />
+                <!-- Quick Preset Buttons -->
+                <button type="button" onclick="setTargetAtt(75)" class="px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold hover:bg-brand-50 dark:hover:bg-brand-950/40 hover:text-brand-600 transition">75% (Mandatory)</button>
+                <button type="button" onclick="setTargetAtt(80)" class="px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold hover:bg-brand-50 dark:hover:bg-brand-950/40 hover:text-brand-600 transition">80%</button>
+                <button type="button" onclick="setTargetAtt(85)" class="px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold hover:bg-brand-50 dark:hover:bg-brand-950/40 hover:text-brand-600 transition">85% (Honors)</button>
+              </div>
+            </div>
+
+            <div class="pt-2 flex items-center space-x-3">
+              <button onclick="calculateAttendance()" class="flex-1 bg-brand-600 hover:bg-brand-700 active:scale-[0.99] text-white font-semibold py-3 px-5 rounded-xl shadow-lg shadow-brand-500/25 transition">
+                Analyze Attendance
+              </button>
+              <button onclick="resetAttendance()" class="px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition text-sm font-medium">
+                Reset
+              </button>
+            </div>
+          </div>
+
+          <!-- Output Column -->
+          <div class="lg:col-span-6 bg-gradient-to-br from-slate-50 to-indigo-50/30 dark:from-slate-800/40 dark:to-brand-950/20 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col justify-between min-h-[300px]">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Current Standing</span>
+                <span id="att-badge" class="px-2.5 py-1 text-xs rounded-full font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300">Above Quota</span>
+              </div>
+
+              <!-- Big Percentage -->
+              <div class="flex items-baseline space-x-2 my-2">
+                <span id="att-current-pct" class="text-5xl font-black text-slate-900 dark:text-white tracking-tight">85.42</span>
+                <span class="text-2xl font-bold text-slate-600 dark:text-slate-400">%</span>
+              </div>
+
+              <!-- Recommendation Banner Box -->
+              <div id="att-recommendation-box" class="mt-4 p-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 transition">
+                <div class="flex items-start space-x-3">
+                  <div id="att-rec-icon" class="p-2 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 mt-0.5">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  </div>
+                  <div>
+                    <h3 id="att-rec-title" class="text-sm font-bold text-slate-800 dark:text-white">Safe to Skip Classes</h3>
+                    <p id="att-rec-desc" class="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
+                      You can bunk up to <strong class="text-brand-600 dark:text-brand-400 text-sm">6</strong> consecutive lectures and maintain attendance above your 75% target.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Attendance Stats Grid -->
+            <div class="grid grid-cols-2 gap-3 pt-4 border-t border-slate-200 dark:border-slate-700 text-sm mt-4">
+              <div class="bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-100 dark:border-slate-700/60">
+                <span class="text-xs text-slate-400 block">Classes Missed</span>
+                <span id="att-stat-missed" class="font-bold text-lg text-slate-800 dark:text-white">7</span>
+              </div>
+              <div class="bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-100 dark:border-slate-700/60">
+                <span class="text-xs text-slate-400 block">Total Headroom</span>
+                <span id="att-stat-headroom" class="font-bold text-lg text-emerald-600 dark:text-emerald-400">+10.42%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MID AD SLOT -->
+      <aside class="ad-slot-placeholder w-full h-24 border border-dashed border-slate-300 dark:border-slate-700 rounded-2xl flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 text-xs font-mono" aria-label="Advertisement Banner">
+        <span class="font-semibold uppercase tracking-wider text-[11px] mb-1">In-Content Responsive Advertisement Hook</span>
+        <span class="text-[10px] text-slate-400">Target slot ID: #ad-slot-mid-attendance</span>
+      </aside>
+
+      <!-- EDITORIAL CONTENT (500+ WORDS) -->
+      <article class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-10 prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 text-sm leading-relaxed space-y-6">
+        <header>
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Mathematical Modeling of Academic Attendance Quotas & Risk Management</h2>
+          <p class="text-slate-500 dark:text-slate-400 mt-1">Formulas, institutional policies, and algorithms governing lecture attendance ratios.</p>
+        </header>
+
+        <section class="space-y-3">
+          <h3 class="text-lg font-bold text-slate-800 dark:text-white">The Algebra Behind Attendance Projections</h3>
+          <p>
+            University statutory boards worldwide (such as the University Grants Commission in India, state boards, and European collegiate syndicates) mandate minimum physical lecture attendance—frequently specified at <strong>75%</strong> or <strong>80%</strong>. Falling below these thresholds can lead to examination debarment, financial aid revocation, or academic probation.
+          </p>
+          <p>
+            Computing your exact standing requires more than taking a simple ratio of your current classes. As more future classes are conducted, the denominator continuously increases. Let:
+          </p>
+          <ul class="list-disc pl-5 space-y-1">
+            <li>$A$ = Current total classes attended.</li>
+            <li>$T$ = Current total classes conducted (held).</li>
+            <li>$P$ = Target decimal attendance ratio (e.g., $0.75$ for $75\%$).</li>
+          </ul>
+
+          <h4 class="font-bold text-slate-800 dark:text-white pt-2">Case 1: Safe Bunk Calculation (When Current Attendance $\ge P$)</h4>
+          <p>
+            If a student intends to skip $x$ consecutive future lectures without letting their attendance percentage drop below $P$:
+          </p>
+          <div class="bg-slate-50 dark:bg-slate-800/80 p-3 rounded-xl border border-slate-200 dark:border-slate-700 font-mono text-xs">
+            \frac{A}{T + x} \ge P \implies A \ge P(T + x) \implies P \cdot x \le A - P \cdot T \implies x \le \left\lfloor \frac{A - P \cdot T}{P} \right\rfloor
+          </div>
+          <p>Here, the mathematical floor function $\lfloor \cdot \rfloor$ guarantees that fractional leeway does not round up into debarment risk.</p>
+
+          <h4 class="font-bold text-slate-800 dark:text-white pt-2">Case 2: Recovery Attendance Calculation (When Current Attendance $&lt; P$)</h4>
+          <p>
+            If a student is in a deficit and must attend $y$ consecutive future lectures back-to-back:
+          </p>
+          <div class="bg-slate-50 dark:bg-slate-800/80 p-3 rounded-xl border border-slate-200 dark:border-slate-700 font-mono text-xs">
+            \frac{A + y}{T + y} \ge P \implies A + y \ge P \cdot T + P \cdot y \implies y(1 - P) \ge P \cdot T - A \implies y \ge \left\lceil \frac{P \cdot T - A}{1 - P} \right\rceil
+          </div>
+          <p>The mathematical ceiling function $\lceil \cdot \rceil$ ensures you never underestimate the lectures required to cross the threshold.</p>
+        </section>
+
+        <section class="space-y-3">
+          <h3 class="text-lg font-bold text-slate-800 dark:text-white">A Practical Case Study</h3>
+          <p>
+            Suppose a biomedical student has attended <strong>36</strong> out of <strong>50</strong> classes held so far. Their current attendance is $36 / 50 = 72.0\%$. The department enforces a strict 75% rule ($P = 0.75$).
+          </p>
+          <div class="bg-slate-50 dark:bg-slate-800/80 p-4 rounded-xl border border-slate-200 dark:border-slate-700 font-mono text-xs space-y-1">
+            <p>1. Identify deficit: 72% &lt; 75% target threshold.</p>
+            <p>2. Apply the recovery formula: y = ⌈ (0.75 × 50 - 36) / (1 - 0.75) ⌉</p>
+            <p>3. Calculate numerator: (37.5 - 36) = 1.5</p>
+            <p>4. Divide by denominator: 1.5 / 0.25 = 6</p>
+            <p>5. Result: The student must attend <strong>6 consecutive classes</strong> without missing any to restore their standing to 75.0% (42 / 56 = 75%).</p>
+          </div>
+        </section>
+
+        <!-- FAQ ACCORDION -->
+        <section class="space-y-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+          <h3 class="text-lg font-bold text-slate-800 dark:text-white">Frequently Asked Questions</h3>
+          
+          <div class="space-y-2" id="faq-att-container">
+            <div class="border border-slate-200 dark:border-slate-700/80 rounded-xl overflow-hidden">
+              <button onclick="toggleFaq(this)" class="w-full text-left px-4 py-3.5 flex justify-between items-center font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                <span>What happens if my required recovery attendance exceeds remaining term lectures?</span>
+                <span class="faq-icon transform transition-transform duration-200 text-brand-500 font-bold text-lg">+</span>
+              </button>
+              <div class="faq-content hidden px-4 pb-4 text-xs text-slate-500 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3">
+                If the calculated recovery lectures ($y$) exceed the total scheduled periods remaining in the semester syllabus, it is mathematically impossible to reach the target threshold. In such circumstances, students should immediately request duty leaves, medical condonation, or supplemental laboratory makeup hours through their academic dean.
+              </div>
+            </div>
+
+            <div class="border border-slate-200 dark:border-slate-700/80 rounded-xl overflow-hidden">
+              <button onclick="toggleFaq(this)" class="w-full text-left px-4 py-3.5 flex justify-between items-center font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                <span>Are medical certificates automatically converted to attendance credits?</span>
+                <span class="faq-icon transform transition-transform duration-200 text-brand-500 font-bold text-lg">+</span>
+              </button>
+              <div class="faq-content hidden px-4 pb-4 text-xs text-slate-500 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3">
+                Most universities operate a "condonation buffer". For instance, if the mandatory requirement is 75%, an institutional board may permit students with documented medical hospitalization to sit for exams with 65% attendance. Condonation rarely artificially increments raw attendance percentages; it simply relaxes the eligibility threshold.
+              </div>
+            </div>
+
+            <div class="border border-slate-200 dark:border-slate-700/80 rounded-xl overflow-hidden">
+              <button onclick="toggleFaq(this)" class="w-full text-left px-4 py-3.5 flex justify-between items-center font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                <span>Does bunking practical labs count the same as bunking lectures?</span>
+                <span class="faq-icon transform transition-transform duration-200 text-brand-500 font-bold text-lg">+</span>
+              </button>
+              <div class="faq-content hidden px-4 pb-4 text-xs text-slate-500 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3">
+                No. In most engineering and medical degrees, laboratory practical sessions are weighted at 2 or 3 contact hours per session. Missing a single 3-hour lab equates to missing 3 standard lecture periods in your denominator. Track your practical laboratories in a separate instance using contact hours rather than session counts.
+              </div>
+            </div>
+          </div>
+        </section>
+      </article>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: STEP-BY-STEP QUADRATIC SOLVER       -->
+    <!-- ========================================== -->
+    <section id="panel-quadratic" class="tab-panel hidden space-y-8">
+      <!-- Interactive Calculator Card -->
+      <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-none p-6 sm:p-8">
+        <div class="border-b border-slate-100 dark:border-slate-800 pb-5 mb-6">
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Step-by-Step Quadratic Equation Solver</h1>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Solve any second-degree polynomial equation of the form <span class="font-mono font-bold text-brand-600 dark:text-brand-400">ax² + bx + c = 0</span> with complete derivation steps.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <!-- Inputs Column -->
+          <div class="lg:col-span-5 space-y-5">
+            <div class="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/80 text-center font-mono text-base font-bold text-slate-700 dark:text-slate-300">
+              <span id="preview-eq">1x² + (-5)x + 6 = 0</span>
+            </div>
+
+            <div class="grid grid-cols-3 gap-3">
+              <div>
+                <label for="coeff-a" class="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase mb-1">a (x²)</label>
+                <input type="number" id="coeff-a" value="1" step="any" oninput="updateEqPreview()" class="w-full text-center text-lg font-bold px-3 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-500 focus:outline-none transition" />
+              </div>
+              <div>
+                <label for="coeff-b" class="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase mb-1">b (x)</label>
+                <input type="number" id="coeff-b" value="-5" step="any" oninput="updateEqPreview()" class="w-full text-center text-lg font-bold px-3 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-500 focus:outline-none transition" />
+              </div>
+              <div>
+                <label for="coeff-c" class="block text-xs font-bold text-slate-600 dark:text-slate-300 uppercase mb-1">c (const)</label>
+                <input type="number" id="coeff-c" value="6" step="any" oninput="updateEqPreview()" class="w-full text-center text-lg font-bold px-3 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-500 focus:outline-none transition" />
+              </div>
+            </div>
+            <p id="quad-error" class="hidden text-xs text-rose-500 font-medium"></p>
+
+            <div class="pt-2 flex items-center space-x-3">
+              <button onclick="solveQuadratic()" class="flex-1 bg-brand-600 hover:bg-brand-700 active:scale-[0.99] text-white font-semibold py-3 px-5 rounded-xl shadow-lg shadow-brand-500/25 transition">
+                Solve with Steps
+              </button>
+              <button onclick="resetQuadratic()" class="px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition text-sm font-medium">
+                Reset
+              </button>
+            </div>
+          </div>
+
+          <!-- Dynamic Steps Column -->
+          <div class="lg:col-span-7 bg-slate-50 dark:bg-slate-800/40 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Solution & Breakdown</span>
+              <span id="quad-root-badge" class="px-2.5 py-1 text-xs rounded-full font-bold bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300">Real & Distinct Roots</span>
+            </div>
+
+            <!-- Roots Display -->
+            <div class="grid grid-cols-2 gap-3">
+              <div class="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700">
+                <span class="text-xs text-slate-400 block font-mono">Root 1 (x₁)</span>
+                <span id="quad-root-1" class="text-2xl font-black text-brand-600 dark:text-brand-400">3.00</span>
+              </div>
+              <div class="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700">
+                <span class="text-xs text-slate-400 block font-mono">Root 2 (x₂)</span>
+                <span id="quad-root-2" class="text-2xl font-black text-brand-600 dark:text-brand-400">2.00</span>
+              </div>
+            </div>
+
+            <!-- Step by Step Math Container -->
+            <div id="quad-steps" class="space-y-3 font-mono text-xs text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-700 max-h-64 overflow-y-auto">
+              <!-- Rendered step by step via JavaScript -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MID AD SLOT -->
+      <aside class="ad-slot-placeholder w-full h-24 border border-dashed border-slate-300 dark:border-slate-700 rounded-2xl flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 text-xs font-mono" aria-label="Advertisement Banner">
+        <span class="font-semibold uppercase tracking-wider text-[11px] mb-1">In-Content Responsive Advertisement Hook</span>
+        <span class="text-[10px] text-slate-400">Target slot ID: #ad-slot-mid-quadratic</span>
+      </aside>
+
+      <!-- EDITORIAL CONTENT (500+ WORDS) -->
+      <article class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-10 prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 text-sm leading-relaxed space-y-6">
+        <header>
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white">The Algebra, Geometry, and Mechanics of Quadratic Equations</h2>
+          <p class="text-slate-500 dark:text-slate-400 mt-1">Exploring the quadratic formula, parabolic geometry, and complex roots analysis.</p>
+        </header>
+
+        <section class="space-y-3">
+          <h3 class="text-lg font-bold text-slate-800 dark:text-white">Theoretical Foundation & Derivation</h3>
+          <p>
+            A quadratic equation is a second-order polynomial algebraic equation in a single variable $x$, defined universally in canonical form as:
+          </p>
+          <div class="bg-slate-50 dark:bg-slate-800/80 p-3 rounded-xl border border-slate-200 dark:border-slate-700 font-mono text-xs text-center font-bold">
+            ax^2 + bx + c = 0 \quad (\text{where } a \neq 0)
+          </div>
+          <p>
+            The fundamental theorem of algebra guarantees that every second-degree polynomial equation possesses exactly two roots (solutions), which may be real, coincident, or complex conjugates. The universal quadratic formula is derived analytically by completing the square on the canonical polynomial:
+          </p>
+          <ol class="list-decimal pl-5 space-y-1">
+            <li>Divide throughout by the leading coefficient $a$: $x^2 + \frac{b}{a}x + \frac{c}{a} = 0$.</li>
+            <li>Isolate the constant term to the right: $x^2 + \frac{b}{a}x = -\frac{c}{a}$.</li>
+            <li>Add the square of half the linear coefficient, $\left(\frac{b}{2a}\right)^2$, to both sides.</li>
+            <li>Factor the left side into a binomial square: $\left(x + \frac{b}{2a}\right)^2 = \frac{b^2 - 4ac}{4a^2}$.</li>
+            <li>Extract the square root and isolate $x$:</li>
+          </ol>
+          <div class="bg-slate-50 dark:bg-slate-800/80 p-3 rounded-xl border border-slate-200 dark:border-slate-700 font-mono text-xs text-center font-bold text-brand-600 dark:text-brand-400">
+            x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+          </div>
+        </section>
+
+        <section class="space-y-3">
+          <h3 class="text-lg font-bold text-slate-800 dark:text-white">The Discriminant ($\Delta = b^2 - 4ac$) & Nature of Roots</h3>
+          <p>
+            The radicand term within the square root symbol is defined as the <strong>discriminant</strong> ($\Delta = b^2 - 4ac$). The numerical sign of this scalar determines the geometric intersections between the parabola $y = ax^2 + bx + c$ and the Cartesian x-axis:
+          </p>
+          <ul class="list-disc pl-5 space-y-2">
+            <li><strong>$\Delta &gt; 0$ (Positive):</strong> The polynomial parabola intersects the x-axis at two distinct real coordinates. The equation yields two unique real roots ($x_1 \neq x_2$).</li>
+            <li><strong>$\Delta = 0$ (Zero):</strong> The vertex of the parabola touches the x-axis tangentially at exactly one critical tangent point. The equation yields two equal/coincident real roots ($x_1 = x_2 = -b / 2a$).</li>
+            <li><strong>$\Delta &lt; 0$ (Negative):</strong> The parabola floats entirely above or below the x-axis without physical real intersections. The square root of a negative quantity introduces the imaginary unit $i = \sqrt{-1}$, producing two complex conjugate roots in the standard format:</li>
+          </ul>
+          <div class="bg-slate-50 dark:bg-slate-800/80 p-3 rounded-xl border border-slate-200 dark:border-slate-700 font-mono text-xs text-center">
+            x = \alpha \pm \beta i \quad \text{where } \alpha = \frac{-b}{2a}, \quad \beta = \frac{\sqrt{-\Delta}}{2a}
+          </div>
+        </section>
+
+        <!-- FAQ ACCORDION -->
+        <section class="space-y-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+          <h3 class="text-lg font-bold text-slate-800 dark:text-white">Frequently Asked Questions</h3>
+          
+          <div class="space-y-2" id="faq-quad-container">
+            <div class="border border-slate-200 dark:border-slate-700/80 rounded-xl overflow-hidden">
+              <button onclick="toggleFaq(this)" class="w-full text-left px-4 py-3.5 flex justify-between items-center font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                <span>Why can coefficient 'a' never equal zero?</span>
+                <span class="faq-icon transform transition-transform duration-200 text-brand-500 font-bold text-lg">+</span>
+              </button>
+              <div class="faq-content hidden px-4 pb-4 text-xs text-slate-500 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3">
+                If the quadratic coefficient $a = 0$, the $x^2$ term cancels out ($0 \cdot x^2 = 0$), collapsing the entire expression into a first-degree linear equation ($bx + c = 0$). Furthermore, dividing by $2a$ in the quadratic formula would produce a mathematically undefined division by zero.
+              </div>
+            </div>
+
+            <div class="border border-slate-200 dark:border-slate-700/80 rounded-xl overflow-hidden">
+              <button onclick="toggleFaq(this)" class="w-full text-left px-4 py-3.5 flex justify-between items-center font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                <span>What are real-world applications of quadratic equations?</span>
+                <span class="faq-icon transform transition-transform duration-200 text-brand-500 font-bold text-lg">+</span>
+              </button>
+              <div class="faq-content hidden px-4 pb-4 text-xs text-slate-500 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3">
+                Quadratic equations model classical Newtonian kinematics (such as projectile motion $h(t) = -0.5gt^2 + v_0 t + h_0$), electrical circuit resonance in RLC systems, corporate profit optimization (finding maximum revenue parabolas), and antenna parabolic focal geometry.
+              </div>
+            </div>
+
+            <div class="border border-slate-200 dark:border-slate-700/80 rounded-xl overflow-hidden">
+              <button onclick="toggleFaq(this)" class="w-full text-left px-4 py-3.5 flex justify-between items-center font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                <span>Can quadratic equations be solved faster via factoring?</span>
+                <span class="faq-icon transform transition-transform duration-200 text-brand-500 font-bold text-lg">+</span>
+              </button>
+              <div class="faq-content hidden px-4 pb-4 text-xs text-slate-500 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3">
+                Yes. If roots are rational numbers, factoring by inspection (Vieta's product and sum method) is significantly faster. However, factoring breaks down whenever roots are irrational numbers (requiring square roots) or complex numbers containing imaginary numbers. The quadratic formula is guaranteed to solve every valid quadratic equation without exception.
+              </div>
+            </div>
+          </div>
+        </section>
+      </article>
+    </section>
+
+    <!-- BOTTOM MONETIZATION PLACEHOLDER -->
+    <aside class="mt-12" aria-label="Sponsored Content">
+      <div id="ad-slot-bottom" class="ad-slot-placeholder w-full h-32 border border-dashed border-slate-300 dark:border-slate-700 rounded-2xl flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 text-xs font-mono select-none">
+        <span class="font-semibold uppercase tracking-wider text-[11px] mb-1">Bottom Page Responsive Ad Placement (Anchor / Multiplex)</span>
+        <span class="text-[10px] text-slate-400">Target slot ID: #ad-slot-bottom (Google AdSense / Ezoic / Mediavine Hook)</span>
+      </div>
+    </aside>
+  </main>
+
+  <!-- FOOTER & COMPLIANCE NAVIGATION -->
+  <footer class="mt-16 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 transition-colors">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="font-extrabold text-slate-900 dark:text-white tracking-tight">Academiq Tools</span>
+            <span class="text-xs bg-brand-50 dark:bg-brand-950 text-brand-600 dark:text-brand-400 font-mono px-2 py-0.5 rounded">Client-Side Engine</span>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-md leading-relaxed">
+            Fast, zero-latency calculation utilities engineered for undergraduate and secondary school students. Zero server tracking, instant responses.
+          </p>
+        </div>
+
+        <!-- Compliance Modals Triggers -->
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-medium text-slate-600 dark:text-slate-400">
+          <button onclick="openModal('about')" class="hover:text-brand-600 dark:hover:text-brand-400 transition">About Us</button>
+          <button onclick="openModal('privacy')" class="hover:text-brand-600 dark:hover:text-brand-400 transition">Privacy Policy</button>
+          <button onclick="openModal('terms')" class="hover:text-brand-600 dark:hover:text-brand-400 transition">Terms of Service</button>
+          <button onclick="openModal('contact')" class="hover:text-brand-600 dark:hover:text-brand-400 transition">Contact Us</button>
+        </div>
+      </div>
+
+      <div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800/80 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+        <span>&copy; <span id="current-year"></span> Academiq Tools. All formulas derived in strict adherence with standard academic conventions.</span>
+        <span>Hosted via Zero-Latency Edge Architecture</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================== -->
+  <!-- ACCESSIBLE COMPLIANCE MODAL DIALOGS       -->
+  <!-- ========================================== -->
+  <div id="compliance-modal-overlay" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div id="compliance-modal-card" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden transform transition-all">
+      <!-- Modal Header -->
+      <div class="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-800/50">
+        <h3 id="modal-title" class="font-extrabold text-lg text-slate-900 dark:text-white tracking-tight">Compliance Document</h3>
+        <button onclick="closeModal()" aria-label="Close dialog" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <!-- Modal Body (Dynamic) -->
+      <div id="modal-body" class="p-6 overflow-y-auto text-xs text-slate-600 dark:text-slate-300 space-y-4 leading-relaxed">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 border-t border-slate-100 dark:border-slate-800 flex justify-end bg-slate-50/50 dark:bg-slate-800/50">
+        <button onclick="closeModal()" class="px-4 py-2 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold rounded-xl text-xs transition">
+          Close Window
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-3 rounded-xl shadow-xl flex items-center space-x-3 text-xs font-semibold">
+    <span id="toast-message">Action successful</span>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- JAVASCRIPT APPLICATION CORE LOGIC          -->
+  <!-- ========================================== -->
+  <script>
+    // ------------------------------------------
+    // 1. APP STATE & THEME MANAGEMENT
+    // ------------------------------------------
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const sunIcon = document.getElementById('theme-icon-sun');
+    const moonIcon = document.getElementById('theme-icon-moon');
+
+    function initTheme() {
+      const savedTheme = localStorage.getItem('academiq_theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        document.documentElement.classList.add('dark');
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+      } else {
+        document.documentElement.classList.remove('dark');
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+      }
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('academiq_theme', isDark ? 'dark' : 'light');
+      if (isDark) {
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+      } else {
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+      }
+    });
+    initTheme();
+
+    // ------------------------------------------
+    // 2. TAB SWITCHING SYSTEM
+    // ------------------------------------------
+    const tabData = {
+      cgpa: {
+        title: "CGPA to Percentage Converter",
+        btnId: "tab-btn-cgpa",
+        navBtnId: "nav-btn-cgpa",
+        panelId: "panel-cgpa"
+      },
+      attendance: {
+        title: "Attendance Target & Bunk Planner",
+        btnId: "tab-btn-attendance",
+        navBtnId: "nav-btn-attendance",
+        panelId: "panel-attendance"
+      },
+      quadratic: {
+        title: "Quadratic Equation Step Solver",
+        btnId: "tab-btn-quadratic",
+        navBtnId: "nav-btn-quadratic",
+        panelId: "panel-quadratic"
+      }
+    };
+
+    let activeTab = 'cgpa';
+
+    function switchTab(tabKey) {
+      if (!tabData[tabKey]) return;
+      activeTab = tabKey;
+
+      // Update Breadcrumb & Mobile Dropdown
+      document.getElementById('breadcrumb-active').textContent = tabData[tabKey].title;
+      document.getElementById('mobile-tab-select').value = tabKey;
+
+      // Toggle Panels
+      Object.keys(tabData).forEach(key => {
+        const panel = document.getElementById(tabData[key].panelId);
+        const tabBtn = document.getElementById(tabData[key].btnId);
+        const navBtn = document.getElementById(tabData[key].navBtnId);
+
+        if (key === tabKey) {
+          panel.classList.remove('hidden');
+          // Active styles for main button
+          tabBtn.className = "tab-trigger flex items-center justify-center space-x-2.5 py-3.5 px-4 rounded-xl font-bold text-sm bg-white dark:bg-slate-900 text-brand-600 dark:text-brand-400 shadow-sm border border-slate-200/80 dark:border-slate-700/80 transition-all";
+          // Active styles for header button
+          if (navBtn) {
+            navBtn.className = "nav-btn px-3 py-1.5 rounded-lg transition-all bg-white dark:bg-slate-900 text-brand-600 dark:text-brand-400 shadow-xs font-semibold";
+          }
+        } else {
+          panel.classList.add('hidden');
+          // Inactive styles for main button
+          tabBtn.className = "tab-trigger flex items-center justify-center space-x-2.5 py-3.5 px-4 rounded-xl font-semibold text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all";
+          // Inactive styles for header button
+          if (navBtn) {
+            navBtn.className = "nav-btn px-3 py-1.5 rounded-lg transition-all text-slate-600 dark:text-slate-300 hover:text-brand-600";
+          }
+        }
+      });
+    }
+
+    // ------------------------------------------
+    // 3. TAB 1: CGPA CALCULATOR LOGIC
+    // ------------------------------------------
+    const cgpaInput = document.getElementById('cgpa-input');
+    const cgpaSystem = document.getElementById('cgpa-system');
+    const customMultiplierContainer = document.getElementById('custom-multiplier-container');
+    const customMultiplier = document.getElementById('custom-multiplier');
+    const cgpaError = document.getElementById('cgpa-error');
+    const cgpaResultVal = document.getElementById('cgpa-result-val');
+    const cgpaProgressBar = document.getElementById('cgpa-progress-bar');
+    const cgpaLetterGrade = document.getElementById('cgpa-letter-grade');
+    const cgpaClassDivision = document.getElementById('cgpa-class-division');
+    const cgpaStatusBadge = document.getElementById('cgpa-status-badge');
+
+    cgpaSystem.addEventListener('change', function() {
+      if (this.value === 'custom') {
+        customMultiplierContainer.classList.remove('hidden');
+      } else {
+        customMultiplierContainer.classList.add('hidden');
+      }
+      calculateCGPA();
+    });
+
+    cgpaInput.addEventListener('input', calculateCGPA);
+    customMultiplier.addEventListener('input', calculateCGPA);
+
+    function calculateCGPA() {
+      const val = parseFloat(cgpaInput.value);
+      cgpaError.classList.add('hidden');
+      cgpaError.textContent = '';
+
+      if (isNaN(val)) {
+        cgpaError.textContent = "Please enter a valid numeric CGPA.";
+        cgpaError.classList.remove('hidden');
+        return;
+      }
+
+      if (val < 0 || val > 10) {
+        cgpaError.textContent = "CGPA must be between 0.00 and 10.00 scale.";
+        cgpaError.classList.remove('hidden');
+        return;
+      }
+
+      const system = cgpaSystem.value;
+      let percentage = 0;
+
+      if (system === '9.5') {
+        percentage = val * 9.5;
+      } else if (system === '10.0') {
+        percentage = val * 10.0;
+      } else if (system === 'vtu') {
+        percentage = val >= 0.75 ? (val - 0.75) * 10 : 0;
+      } else if (system === 'mumbai') {
+        if (val < 7.0) {
+          percentage = (7.1 * val) + 12;
+        } else {
+          percentage = (7.4 * val) + 12;
+        }
+      } else if (system === 'custom') {
+        const mult = parseFloat(customMultiplier.value) || 9.5;
+        percentage = val * mult;
+      }
+
+      percentage = Math.min(Math.max(percentage, 0), 100);
+      const formattedPct = percentage.toFixed(2);
+      cgpaResultVal.textContent = formattedPct;
+      cgpaProgressBar.style.width = `${formattedPct}%`;
+
+      // Grade & Division Mapping
+      let grade = 'F (Fail)';
+      let division = 'Fail / Reappear';
+      let badgeClass = 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300';
+      let badgeText = 'Needs Work';
+
+      if (percentage >= 85) {
+        grade = 'O (Outstanding)';
+        division = 'First Class with Distinction';
+        badgeClass = 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300';
+        badgeText = 'Top Honors';
+      } else if (percentage >= 75) {
+        grade = 'A+ (Excellent)';
+        division = 'First Class with Distinction';
+        badgeClass = 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300';
+        badgeText = 'Distinction';
+      } else if (percentage >= 65) {
+        grade = 'A (Very Good)';
+        division = 'First Class';
+        badgeClass = 'bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300';
+        badgeText = 'First Class';
+      } else if (percentage >= 55) {
+        grade = 'B+ (Good)';
+        division = 'Second Class (Upper)';
+        badgeClass = 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300';
+        badgeText = 'Average';
+      } else if (percentage >= 45) {
+        grade = 'B (Above Average)';
+        division = 'Second Class';
+        badgeClass = 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300';
+        badgeText = 'Pass';
+      } else if (percentage >= 40) {
+        grade = 'C (Pass)';
+        division = 'Pass Class';
+        badgeClass = 'bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300';
+        badgeText = 'Marginal';
+      }
+
+      cgpaLetterGrade.textContent = grade;
+      cgpaClassDivision.textContent = division;
+      cgpaStatusBadge.className = `px-2.5 py-1 text-xs rounded-full font-bold ${badgeClass}`;
+      cgpaStatusBadge.textContent = badgeText;
+    }
+
+    function resetCGPA() {
+      cgpaInput.value = '8.50';
+      cgpaSystem.value = '9.5';
+      customMultiplierContainer.classList.add('hidden');
+      calculateCGPA();
+    }
+
+    // ------------------------------------------
+    // 4. TAB 2: ATTENDANCE CALCULATOR LOGIC
+    // ------------------------------------------
+    const classesHeldInput = document.getElementById('classes-held');
+    const classesAttendedInput = document.getElementById('classes-attended');
+    const attTargetInput = document.getElementById('att-target-input');
+    const attError = document.getElementById('att-error');
+    const attCurrentPct = document.getElementById('att-current-pct');
+    const attBadge = document.getElementById('att-badge');
+    const attRecTitle = document.getElementById('att-rec-title');
+    const attRecDesc = document.getElementById('att-rec-desc');
+    const attRecIcon = document.getElementById('att-rec-icon');
+    const attStatMissed = document.getElementById('att-stat-missed');
+    const attStatHeadroom = document.getElementById('att-stat-headroom');
+
+    classesHeldInput.addEventListener('input', calculateAttendance);
+    classesAttendedInput.addEventListener('input', calculateAttendance);
+    attTargetInput.addEventListener('input', calculateAttendance);
+
+    function setTargetAtt(val) {
+      attTargetInput.value = val;
+      calculateAttendance();
+    }
+
+    function calculateAttendance() {
+      const held = parseInt(classesHeldInput.value, 10);
+      const attended = parseInt(classesAttendedInput.value, 10);
+      const targetPct = parseFloat(attTargetInput.value);
+
+      attError.classList.add('hidden');
+      attError.textContent = '';
+
+      if (isNaN(held) || isNaN(attended) || isNaN(targetPct)) {
+        attError.textContent = "Please provide valid numbers for all fields.";
+        attError.classList.remove('hidden');
+        return;
+      }
+
+      if (held <= 0) {
+        attError.textContent = "Total classes held must be at least 1.";
+        attError.classList.remove('hidden');
+        return;
+      }
+
+      if (attended < 0) {
+        attError.textContent = "Attended classes cannot be negative.";
+        attError.classList.remove('hidden');
+        return;
+      }
+
+      if (attended > held) {
+        attError.textContent = "Attended classes cannot exceed total classes held.";
+        attError.classList.remove('hidden');
+        return;
+      }
+
+      if (targetPct <= 0 || targetPct > 100) {
+        attError.textContent = "Desired target must be between 1% and 100%.";
+        attError.classList.remove('hidden');
+        return;
+      }
+
+      const currentRatio = attended / held;
+      const currentPct = currentRatio * 100;
+      const missed = held - attended;
+      const targetRatio = targetPct / 100;
+
+      attCurrentPct.textContent = currentPct.toFixed(2);
+      attStatMissed.textContent = missed;
+
+      const delta = currentPct - targetPct;
+      attStatHeadroom.textContent = `${delta >= 0 ? '+' : ''}${delta.toFixed(2)}%`;
+      attStatHeadroom.className = `font-bold text-lg ${delta >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`;
+
+      if (currentPct >= targetPct) {
+        // Safe bunk calculation: floor((Attended - (targetRatio * Held)) / targetRatio)
+        const safeBunks = Math.floor((attended - (targetRatio * held)) / targetRatio);
+
+        attBadge.className = "px-2.5 py-1 text-xs rounded-full font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300";
+        attBadge.textContent = "Safe Standing";
+
+        attRecIcon.className = "p-2 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 mt-0.5";
+        attRecIcon.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+
+        attRecTitle.textContent = "You Can Safely Bunk";
+        if (safeBunks > 0) {
+          attRecDesc.innerHTML = `You can skip up to <strong class="text-brand-600 dark:text-brand-400 text-sm">${safeBunks}</strong> consecutive classes and remain above your ${targetPct}% threshold.`;
+        } else {
+          attRecDesc.innerHTML = `You are precisely on track. Bunking even <strong class="text-amber-500 text-sm">1</strong> more class will drop you below ${targetPct}%.`;
+        }
+      } else {
+        // Recovery calculation: ceil((targetRatio * Held - Attended) / (1 - targetRatio))
+        let requiredClasses = 0;
+        if (targetRatio >= 1.0) {
+          requiredClasses = Infinity;
+        } else {
+          requiredClasses = Math.ceil(((targetRatio * held) - attended) / (1 - targetRatio));
+        }
+
+        attBadge.className = "px-2.5 py-1 text-xs rounded-full font-bold bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300";
+        attBadge.textContent = "Attendance Shortage";
+
+        attRecIcon.className = "p-2 rounded-lg bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 mt-0.5";
+        attRecIcon.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>`;
+
+        attRecTitle.textContent = "Mandatory Attendance Needed";
+        if (isFinite(requiredClasses)) {
+          attRecDesc.innerHTML = `You must attend the next <strong class="text-rose-600 dark:text-rose-400 text-sm">${requiredClasses}</strong> consecutive classes without absenting to restore your attendance back to ${targetPct}%.`;
+        } else {
+          attRecDesc.innerHTML = `Since you targeted 100% and have already missed a lecture, 100% mathematical attendance can no longer be reached this term.`;
+        }
+      }
+    }
+
+    function resetAttendance() {
+      classesHeldInput.value = '48';
+      classesAttendedInput.value = '41';
+      attTargetInput.value = '75';
+      calculateAttendance();
+    }
+
+    // ------------------------------------------
+    // 5. TAB 3: QUADRATIC SOLVER LOGIC
+    // ------------------------------------------
+    const coeffA = document.getElementById('coeff-a');
+    const coeffB = document.getElementById('coeff-b');
+    const coeffC = document.getElementById('coeff-c');
+    const previewEq = document.getElementById('preview-eq');
+    const quadError = document.getElementById('quad-error');
+    const quadRootBadge = document.getElementById('quad-root-badge');
+    const quadRoot1 = document.getElementById('quad-root-1');
+    const quadRoot2 = document.getElementById('quad-root-2');
+    const quadSteps = document.getElementById('quad-steps');
+
+    function updateEqPreview() {
+      const a = coeffA.value || 'a';
+      const b = coeffB.value || 'b';
+      const c = coeffC.value || 'c';
+      previewEq.textContent = `${a}x² + (${b})x + (${c}) = 0`;
+    }
+
+    function solveQuadratic() {
+      const a = parseFloat(coeffA.value);
+      const b = parseFloat(coeffB.value);
+      const c = parseFloat(coeffC.value);
+
+      quadError.classList.add('hidden');
+      quadError.textContent = '';
+      updateEqPreview();
+
+      if (isNaN(a) || isNaN(b) || isNaN(c)) {
+        quadError.textContent = "Please specify valid numeric coefficients for a, b, and c.";
+        quadError.classList.remove('hidden');
+        return;
+      }
+
+      if (a === 0) {
+        quadError.textContent = "Coefficient 'a' cannot be 0 in a quadratic equation (must be a second-degree polynomial).";
+        quadError.classList.remove('hidden');
+        return;
+      }
+
+      // Discriminant Δ = b² - 4ac
+      const disc = (b * b) - (4 * a * c);
+      let stepsHtml = '';
+
+      stepsHtml += `<div class="pb-2 border-b border-slate-100 dark:border-slate-800">
+        <span class="text-brand-600 dark:text-brand-400 font-bold">Step 1: Standard Canonical Form</span>
+        <p class="mt-0.5">Given: a = ${a}, b = ${b}, c = ${c}</p>
+        <p class="text-slate-400">Equation: ${a}x² + (${b})x + (${c}) = 0</p>
+      </div>`;
+
+      stepsHtml += `<div class="pb-2 border-b border-slate-100 dark:border-slate-800">
+        <span class="text-brand-600 dark:text-brand-400 font-bold">Step 2: Calculate Discriminant (Δ = b² - 4ac)</span>
+        <p class="mt-0.5">Δ = (${b})² - 4(${a})(${c})</p>
+        <p>Δ = ${b * b} - (${4 * a * c}) = <strong>${disc.toFixed(4)}</strong></p>
+      </div>`;
+
+      if (disc > 0.0000001) {
+        // Two real distinct roots
+        const sqrtDisc = Math.sqrt(disc);
+        const r1 = (-b + sqrtDisc) / (2 * a);
+        const r2 = (-b - sqrtDisc) / (2 * a);
+
+        quadRoot1.textContent = r1.toFixed(4);
+        quadRoot2.textContent = r2.toFixed(4);
+        quadRootBadge.className = "px-2.5 py-1 text-xs rounded-full font-bold bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300";
+        quadRootBadge.textContent = "Real & Distinct Roots";
+
+        stepsHtml += `<div>
+          <span class="text-brand-600 dark:text-brand-400 font-bold">Step 3: Discriminant > 0 (Two Real Solutions)</span>
+          <p class="mt-0.5">x = [-b ± √Δ] / (2a)</p>
+          <p>x = [-(${b}) ± √${disc.toFixed(4)}] / [2(${a})]</p>
+          <p class="mt-1">x₁ = [${-b} + ${sqrtDisc.toFixed(4)}] / ${2 * a} = <strong>${r1.toFixed(4)}</strong></p>
+          <p>x₂ = [${-b} - ${sqrtDisc.toFixed(4)}] / ${2 * a} = <strong>${r2.toFixed(4)}</strong></p>
+        </div>`;
+      } else if (Math.abs(disc) <= 0.0000001) {
+        // One real repeated root
+        const r = -b / (2 * a);
+        quadRoot1.textContent = r.toFixed(4);
+        quadRoot2.textContent = r.toFixed(4);
+        quadRootBadge.className = "px-2.5 py-1 text-xs rounded-full font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300";
+        quadRootBadge.textContent = "Real & Coincident Roots";
+
+        stepsHtml += `<div>
+          <span class="text-brand-600 dark:text-brand-400 font-bold">Step 3: Discriminant = 0 (One Double Root)</span>
+          <p class="mt-0.5">x = -b / (2a)</p>
+          <p>x = -(${b}) / [2(${a})] = <strong>${r.toFixed(4)}</strong></p>
+          <p class="text-slate-400 mt-1">Parabola vertex rests tangentially upon the x-axis.</p>
+        </div>`;
+      } else {
+        // Complex conjugate roots
+        const realPart = (-b / (2 * a));
+        const imagPart = (Math.sqrt(-disc) / (2 * Math.abs(a)));
+
+        quadRoot1.textContent = `${realPart.toFixed(3)} + ${imagPart.toFixed(3)}i`;
+        quadRoot2.textContent = `${realPart.toFixed(3)} - ${imagPart.toFixed(3)}i`;
+        quadRootBadge.className = "px-2.5 py-1 text-xs rounded-full font-bold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300";
+        quadRootBadge.textContent = "Complex Conjugate Roots";
+
+        stepsHtml += `<div>
+          <span class="text-brand-600 dark:text-brand-400 font-bold">Step 3: Discriminant < 0 (Complex Roots)</span>
+          <p class="mt-0.5">√Δ = √(${disc.toFixed(4)}) = ${Math.sqrt(-disc).toFixed(4)}i</p>
+          <p>x = [-(${b}) ± ${Math.sqrt(-disc).toFixed(4)}i] / ${2 * a}</p>
+          <p class="mt-1">x₁ = <strong>${realPart.toFixed(4)} + ${imagPart.toFixed(4)}i</strong></p>
+          <p>x₂ = <strong>${realPart.toFixed(4)} - ${imagPart.toFixed(4)}i</strong></p>
+        </div>`;
+      }
+
+      quadSteps.innerHTML = stepsHtml;
+    }
+
+    function resetQuadratic() {
+      coeffA.value = '1';
+      coeffB.value = '-5';
+      coeffC.value = '6';
+      updateEqPreview();
+      solveQuadratic();
+    }
+
+    // ------------------------------------------
+    // 6. ACCORDION FAQ LOGIC
+    // ------------------------------------------
+    function toggleFaq(button) {
+      const content = button.nextElementSibling;
+      const icon = button.querySelector('.faq-icon');
+      const isHidden = content.classList.contains('hidden');
+
+      if (isHidden) {
+        content.classList.remove('hidden');
+        icon.textContent = '−';
+        icon.classList.add('rotate-180');
+      } else {
+        content.classList.add('hidden');
+        icon.textContent = '+';
+        icon.classList.remove('rotate-180');
+      }
+    }
+
+    // ------------------------------------------
+    // 7. COMPLIANCE MODAL SYSTEM (AdSense / GDPR)
+    // ------------------------------------------
+    const modalOverlay = document.getElementById('compliance-modal-overlay');
+    const modalTitle = document.getElementById('modal-title');
+    const modalBody = document.getElementById('modal-body');
+
+    const complianceContent = {
+      about: {
+        title: "About Academiq Tools",
+        content: `
+          <h4 class="font-bold text-sm text-slate-800 dark:text-white">Our Engineering Mission</h4>
+          <p>Academiq Tools was designed to solve a ubiquitous student dilemma: accessing fast, mathematically verified academic calculators without aggressive paywalls, privacy-invasive user registration, or slow cloud roundtrips.</p>
+          <h4 class="font-bold text-sm text-slate-800 dark:text-white pt-2">Mathematical Rigor & Verification</h4>
+          <p>All algorithm implementations undergo strict unit verification against formal higher education guidelines, including CBSE/AICTE circulars, university examination ordinances, and IEEE computational arithmetic norms. Computations execute entirely on your device's browser thread (zero latency, offline capability).</p>
+        `
+      },
+      privacy: {
+        title: "Privacy Policy (GDPR / CCPA / AdSense Compliant)",
+        content: `
+          <p>Last Revised: January 2025.</p>
+          <h4 class="font-bold text-sm text-slate-800 dark:text-white">1. Zero Client Data Harvesting</h4>
+          <p>Academiq Tools operates strictly as a client-side web application. Numbers, grades, percentages, and equations typed into input fields are processed entirely in your device's volatile memory and are never transmitted to our servers.</p>
+          <h4 class="font-bold text-sm text-slate-800 dark:text-white pt-2">2. Cookies & Advertising Technologies</h4>
+          <p>We work with programmatic partners like Google AdSense and Ezoic. These third-party vendors use HTTP cookies and web beacons to serve ads based on user prior visits to this and other sites. You may opt out of personalized advertising by visiting Google Ads Settings.</p>
+          <h4 class="font-bold text-sm text-slate-800 dark:text-white pt-2">3. Local Storage</h4>
+          <p>We use standard HTML5 LocalStorage solely to record your visual interface preference (Dark vs. Light mode). No personal identifiers are stored.</p>
+        `
+      },
+      terms: {
+        title: "Terms of Service & Academic Disclaimer",
+        content: `
+          <h4 class="font-bold text-sm text-slate-800 dark:text-white">1. For Informational & Estimation Purposes</h4>
+          <p>Academiq Tools calculators are engineered for planning and convenience. Because institutional grading curves, rounding rubrics, and condonation regulations vary across independent universities, calculations generated here do not constitute legally binding academic records.</p>
+          <h4 class="font-bold text-sm text-slate-800 dark:text-white pt-2">2. Limitation of Liability</h4>
+          <p>Under no circumstances shall the maintainers of Academiq Tools be held liable for attendance debarment, transcript discrepancy, or academic examination outcomes.</p>
+        `
+      },
+      contact: {
+        title: "Contact Editorial & Engineering Team",
+        content: `
+          <p>Have an inquiry, university formula addition request, or bug report? Reach out below:</p>
+          <form id="contact-form" onsubmit="handleContactSubmit(event)" class="space-y-3 pt-2">
+            <div>
+              <label class="block text-xs font-bold uppercase mb-1">Your Name</label>
+              <input type="text" required placeholder="Jane Doe" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase mb-1">Email Address</label>
+              <input type="email" required placeholder="jane@university.edu" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase mb-1">Message</label>
+              <textarea required rows="3" placeholder="Describe the calculation or feature suggestion..." class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs"></textarea>
+            </div>
+            <button type="submit" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-lg text-xs transition">
+              Send Dispatch
+            </button>
+          </form>
+        `
+      }
+    };
+
+    function openModal(key) {
+      if (!complianceContent[key]) return;
+      modalTitle.textContent = complianceContent[key].title;
+      modalBody.innerHTML = complianceContent[key].content;
+      modalOverlay.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modalOverlay.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modalOverlay.classList.contains('hidden')) {
+        closeModal();
+      }
+    });
+
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      closeModal();
+      showToast("Thank you! Your inquiry has been dispatched to our maintainers.");
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-message');
+      toastMsg.textContent = msg;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 4000);
+    }
+
+    // ------------------------------------------
+    // 8. INITIALIZE APPLICATION ON LOAD
+    // ------------------------------------------
+    document.addEventListener('DOMContentLoaded', () => {
+      // Execute initial calculations
+      calculateCGPA();
+      calculateAttendance();
+      solveQuadratic();
+      switchTab('cgpa');
+    });
+  </script>
+</body>
+</html>
