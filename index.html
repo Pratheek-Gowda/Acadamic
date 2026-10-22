@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
- <!-- 1. Privacy Scripts (Load first) -->
-<script data-cfasync="false" src="https://cmp.gatekeeperconsent.com/min.js"></script>
-<script data-cfasync="false" src="https://the.gatekeeperconsent.com/cmp.min.js"></script>
+  <!-- 1. Privacy & Consent Scripts (Load first) -->
+  <script data-cfasync="false" src="https://cmp.gatekeeperconsent.com/min.js"></script>
+  <script data-cfasync="false" src="https://the.gatekeeperconsent.com/cmp.min.js"></script>
 
-<!-- 2. Main Ezoic Engine -->
-<script async src="//www.ezojs.com/ezoic/sa.min.js"></script>
-<script>
-  window.ezstandalone = window.ezstandalone || {};
-  ezstandalone.cmd = ezstandalone.cmd || [];
-</script>
-<script src="//ezoicanalytics.com/analytics.js"></script>
+  <!-- 2. Main Ezoic Engine -->
+  <script async src="//www.ezojs.com/ezoic/sa.min.js"></script>
+  <script>
+    window.ezstandalone = window.ezstandalone || {};
+    ezstandalone.cmd = ezstandalone.cmd || [];
+  </script>
+  <script src="//ezoicanalytics.com/analytics.js"></script>
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +19,7 @@
   <meta name="description" content="Free, fast, and mathematically rigorous academic calculators. Convert CGPA to percentage, calculate attendance bunk/target requirements, and solve quadratic equations step-by-step.">
   <meta name="keywords" content="CGPA to percentage, attendance calculator, bunk calculator, quadratic equation solver, academic toolkit, GPA converter">
   <meta name="author" content="Academiq Tools Engineering">
-  <link rel="canonical" href="https://academiqtools.example.com">
+  <link rel="canonical" href="https://pratheekenterprises.tech">
 
   <!-- Open Graph / Meta -->
   <meta property="og:type" content="website">
@@ -60,15 +60,12 @@
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
     .dark ::-webkit-scrollbar-thumb { background: #334155; }
     
-    .ad-slot-placeholder {
+    .ad-container-wrapper {
       min-height: 100px;
-      background: repeating-linear-gradient(
-        -45deg,
-        rgba(99, 102, 241, 0.03),
-        rgba(99, 102, 241, 0.03) 10px,
-        rgba(99, 102, 241, 0.08) 10px,
-        rgba(99, 102, 241, 0.08) 20px
-      );
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
     }
   </style>
 </head>
@@ -107,9 +104,12 @@
 
   <!-- TOP AD BANNER CONTAINER -->
   <aside class="max-w-6xl mx-auto px-4 mt-6 w-full" aria-label="Sponsored Advertisement Banner">
-    <div id="ad-banner-top" class="ad-slot-placeholder w-full h-24 border border-dashed border-slate-300 dark:border-slate-700 rounded-2xl flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 text-xs font-mono select-none">
-      <span class="font-semibold uppercase tracking-wider text-[11px] mb-1">Advertisement Placement (Leaderboard Responsive)</span>
-      <span class="text-[10px] text-slate-400">Target slot ID: #ad-banner-top (AdSense / Ezoic Ready)</span>
+    <div id="ad-banner-top" class="ad-container-wrapper rounded-2xl overflow-hidden bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/60 dark:border-slate-800/60 py-2">
+      <script>
+        ezstandalone.cmd.push(function () {
+          ezstandalone.showAds({});
+        });
+      </script>
     </div>
   </aside>
 
@@ -240,13 +240,16 @@
         </div>
       </div>
 
-      <!-- MID AD SLOT -->
-      <aside class="ad-slot-placeholder w-full h-24 border border-dashed border-slate-300 dark:border-slate-700 rounded-2xl flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 text-xs font-mono" aria-label="Advertisement Banner">
-        <span class="font-semibold uppercase tracking-wider text-[11px] mb-1">In-Content Responsive Advertisement Hook</span>
-        <span class="text-[10px] text-slate-400">Target slot ID: #ad-slot-mid-cgpa</span>
+      <!-- MID AD SLOT: CGPA TAB -->
+      <aside class="ad-container-wrapper rounded-2xl overflow-hidden bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/60 dark:border-slate-800/60 py-2" aria-label="Advertisement Banner">
+        <script>
+          ezstandalone.cmd.push(function () {
+            ezstandalone.showAds({});
+          });
+        </script>
       </aside>
 
-      <!-- EDITORIAL CONTENT (500+ WORDS) -->
+      <!-- EDITORIAL CONTENT -->
       <article class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-10 prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 text-sm leading-relaxed space-y-6">
         <header>
           <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Comprehensive Guide to Academic Cumulative Grade Point Average (CGPA) Conversion</h2>
@@ -288,7 +291,6 @@
           <h3 class="text-lg font-bold text-slate-800 dark:text-white">Frequently Asked Questions</h3>
           
           <div class="space-y-2" id="faq-cgpa-container">
-            <!-- FAQ Item 1 -->
             <div class="border border-slate-200 dark:border-slate-700/80 rounded-xl overflow-hidden">
               <button onclick="toggleFaq(this)" class="w-full text-left px-4 py-3.5 flex justify-between items-center font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
                 <span>Why does CBSE and AICTE multiply by 9.5 instead of 10?</span>
@@ -299,7 +301,6 @@
               </div>
             </div>
 
-            <!-- FAQ Item 2 -->
             <div class="border border-slate-200 dark:border-slate-700/80 rounded-xl overflow-hidden">
               <button onclick="toggleFaq(this)" class="w-full text-left px-4 py-3.5 flex justify-between items-center font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
                 <span>Can I use this converted percentage for US graduate admissions (WES)?</span>
@@ -310,7 +311,6 @@
               </div>
             </div>
 
-            <!-- FAQ Item 3 -->
             <div class="border border-slate-200 dark:border-slate-700/80 rounded-xl overflow-hidden">
               <button onclick="toggleFaq(this)" class="w-full text-left px-4 py-3.5 flex justify-between items-center font-semibold text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
                 <span>What constitutes a "First Class with Distinction"?</span>
@@ -417,13 +417,16 @@
         </div>
       </div>
 
-      <!-- MID AD SLOT -->
-      <aside class="ad-slot-placeholder w-full h-24 border border-dashed border-slate-300 dark:border-slate-700 rounded-2xl flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 text-xs font-mono" aria-label="Advertisement Banner">
-        <span class="font-semibold uppercase tracking-wider text-[11px] mb-1">In-Content Responsive Advertisement Hook</span>
-        <span class="text-[10px] text-slate-400">Target slot ID: #ad-slot-mid-attendance</span>
+      <!-- MID AD SLOT: ATTENDANCE TAB -->
+      <aside class="ad-container-wrapper rounded-2xl overflow-hidden bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/60 dark:border-slate-800/60 py-2" aria-label="Advertisement Banner">
+        <script>
+          ezstandalone.cmd.push(function () {
+            ezstandalone.showAds({});
+          });
+        </script>
       </aside>
 
-      <!-- EDITORIAL CONTENT (500+ WORDS) -->
+      <!-- EDITORIAL CONTENT -->
       <article class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-10 prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 text-sm leading-relaxed space-y-6">
         <header>
           <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Mathematical Modeling of Academic Attendance Quotas & Risk Management</h2>
@@ -587,13 +590,16 @@
         </div>
       </div>
 
-      <!-- MID AD SLOT -->
-      <aside class="ad-slot-placeholder w-full h-24 border border-dashed border-slate-300 dark:border-slate-700 rounded-2xl flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 text-xs font-mono" aria-label="Advertisement Banner">
-        <span class="font-semibold uppercase tracking-wider text-[11px] mb-1">In-Content Responsive Advertisement Hook</span>
-        <span class="text-[10px] text-slate-400">Target slot ID: #ad-slot-mid-quadratic</span>
+      <!-- MID AD SLOT: QUADRATIC TAB -->
+      <aside class="ad-container-wrapper rounded-2xl overflow-hidden bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/60 dark:border-slate-800/60 py-2" aria-label="Advertisement Banner">
+        <script>
+          ezstandalone.cmd.push(function () {
+            ezstandalone.showAds({});
+          });
+        </script>
       </aside>
 
-      <!-- EDITORIAL CONTENT (500+ WORDS) -->
+      <!-- EDITORIAL CONTENT -->
       <article class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-10 prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-300 text-sm leading-relaxed space-y-6">
         <header>
           <h2 class="text-2xl font-bold text-slate-900 dark:text-white">The Algebra, Geometry, and Mechanics of Quadratic Equations</h2>
@@ -679,9 +685,12 @@
 
     <!-- BOTTOM MONETIZATION PLACEHOLDER -->
     <aside class="mt-12" aria-label="Sponsored Content">
-      <div id="ad-slot-bottom" class="ad-slot-placeholder w-full h-32 border border-dashed border-slate-300 dark:border-slate-700 rounded-2xl flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 text-xs font-mono select-none">
-        <span class="font-semibold uppercase tracking-wider text-[11px] mb-1">Bottom Page Responsive Ad Placement (Anchor / Multiplex)</span>
-        <span class="text-[10px] text-slate-400">Target slot ID: #ad-slot-bottom (Google AdSense / Ezoic / Mediavine Hook)</span>
+      <div id="ad-slot-bottom" class="ad-container-wrapper rounded-2xl overflow-hidden bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/60 dark:border-slate-800/60 py-4">
+        <script>
+          ezstandalone.cmd.push(function () {
+            ezstandalone.showAds({});
+          });
+        </script>
       </div>
     </aside>
   </main>
@@ -717,7 +726,7 @@
   </footer>
 
   <!-- ========================================== -->
-  <!-- ACCESSIBLE COMPLIANCE MODAL DIALOGS       -->
+  <!-- ACCESSIBLE COMPLIANCE MODAL DIALOGS        -->
   <!-- ========================================== -->
   <div id="compliance-modal-overlay" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div id="compliance-modal-card" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden transform transition-all">
@@ -1334,7 +1343,6 @@
     // 8. INITIALIZE APPLICATION ON LOAD
     // ------------------------------------------
     document.addEventListener('DOMContentLoaded', () => {
-      // Execute initial calculations
       calculateCGPA();
       calculateAttendance();
       solveQuadratic();
